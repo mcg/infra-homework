@@ -4,33 +4,30 @@ This repo will build a demo site that consists of haproxy with two nginx hosts b
 
 Getting Started
 ===============
-Make sure you have a Unix like system and the following prerequisites.
+You have a Unix like system and the following prerequisites.
 - Ansible >= 1.9.1
 - Vagrant >= 1.7.4
 - Ports 8080 and 9000 available.
+- Clone this repo, `git clone https://github.com/mcg/infra-homework.git`
 
-- Clone this repo.
-```
-git clone https://github.com/mcg/infra-homework.git 
-```
-- cd into infra-homework
-- Edit the included weave_secret.txt file. This will be the key used to setup the Weave encrypted network.
-- You should now be able to "vagrant up"
-- Assuming the provision went OK, you should be able to visit http://localhost:8080 and http://localhost:9000/haproxystats
+1. `cd infra-homework`
+2. Edit the included weave_secret.txt file. This will be the key used to setup the Weave encrypted network.
+3. You should now be able to `vagrant up`
+4. Assuming the provision went OK, you should be able to visit http://localhost:8080 and http://localhost:9000/haproxystats
 
 What happened?
 ==============
-- Vagrant provisions a single instance of Ubuntu Trusty
-- Vagrant then runs an Ansible provisioner to setup the instance
-  - Make sure ssh and docker are running
+1 Vagrant provisions a single instance of Ubuntu Trusty
+2 Vagrant then runs an Ansible provisioner to setup the instance
+  - Makes sure ssh and docker are running
   - Starts Weave
-  - Starts an Ansible provision to build docker images and run containers for our example infra.
+  - Starts an Ansible provision inside the instance to build docker images and run containers for our example infra.
 
 Troubleshooting
 ===============
-- Rerun full provision, "vagrant provision"
-- ssh into the Vagrant instance, "vagrant ssh"
+- Rerun full provision, `vagrant provision`
+- ssh into the Vagrant instance, `vagrant ssh`
 - Rerun just the docker provisioning steps. From the Vagrant instance...
-  - cd /vagrant/provision
-  - ansible-playbook -i inventory.yml site.yml
+  - `cd /vagrant/provision`
+  - `ansible-playbook -i inventory.yml site.yml`
 
