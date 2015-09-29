@@ -1,0 +1,8 @@
+server {
+    ssi on;
+    listen 8081 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+}
+

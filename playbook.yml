@@ -1,0 +1,67 @@
+---
+- hosts: all
+  sudo: yes
+  vars:
+    weave_secret: "{{ lookup('file', 'weave_secret.txt') }}"
+  tasks:
+    - name: Remove cruft
+      apt: package={{ item }} state=absent purge=yes
+      with_items:
+        - puppet
+        - chef
+ 
+    - name: add_docker_apt_key
+      shell: "/usr/bin/curl https://get.docker.com/gpg | /usr/bin/apt-key add -"
+      args:
+        creates: /root/.ansible_add_docker_apt_key_lock
+      register: add_docker_apt_key
+
+    - name: add_docker_apt_key_lock
+      when: add_docker_apt_key|success
+      copy:
+        content: ""
+        dest:    /root/.ansible_add_docker_apt_key_lock
+        owner:   root
+        group:   root
+        mode:    "u=rw,g=r,o=r"
+
+    - name: enable docker repo
+      apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
+
+    - name: enable ansible repo
+      apt_repository: repo='ppa:ansible/ansible'
+
+    - name: Install packages
+      apt: package={{ item }} state=present update_cache=yes
+      with_items:
+        - ssh
+        - git
+        - ansible
+        - linux-image-extra-{{ ansible_kernel }}
+        - lxc-docker
+        - python-pip
+
+    - name: docker-py
+      pip: name=docker-py
+
+    - name: Services enables/started
+      service: name={{ item }} state=started enabled=yes
+      with_items:
+        - ssh
+        - docker
+
+    - name: Install Weave
+      get_url: url=https://git.io/weave dest=/usr/local/bin/weave mode=755
+
+    - name: start weave
+      command: "/usr/local/bin/weave launch --password {{ weave_secret }}"
+      args:
+        creates: /var/run/weave.sock
+
+    - name: provision docker instances
+      command: ansible-playbook -i inventory.yml site.yml
+      args:
+        chdir: /vagrant/provision
+
+    - name: Access info
+      debug: msg="Assuming nothing failed, the homework env should be available as http://localhost:8080 and haproxy stats at http://localhost:9000/haproxystats"
