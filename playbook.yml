@@ -58,7 +58,7 @@
       args:
         creates: /var/run/weave.sock
 
-    - name: provision docker instances
+    - name: provision docker environment
       command: ansible-playbook -i inventory.yml site.yml
       args:
         chdir: /vagrant/provision

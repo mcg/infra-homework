@@ -1,7 +1,6 @@
 #
-# Nginx Dockerfile
+# Static site  Dockerfile
 # 
-# Based on --- https://github.com/dockerfile/nginx
 #
 
 # Pull base image.
