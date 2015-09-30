@@ -8,13 +8,12 @@ Have a Unix like system and the following prerequisites.
 - Ansible >= 1.9.1
 - Vagrant >= 1.7.4
 - Ports 8080 and 9000 available
-- Clone this repo
-  `git clone https://github.com/mcg/infra-homework.git`
 
-1. `cd infra-homework`
-2. Edit the included weave_secret.txt file(or leave it as is for this example). This will be the key used to setup the Weave encrypted network.
-3. You should now be able to `vagrant up`
-4. Assuming the provision went OK, from your host machine, you should be able to visit...
+1. `git clone https://github.com/mcg/infra-homework.git`
+2. `cd infra-homework`
+3. Edit the included weave_secret.txt file(or leave it as is for this example). This will be the key used to setup the Weave encrypted network.
+4. You should now be able to `vagrant up`
+5. Assuming the provision went OK, from your host machine, you should be able to visit...
    - `http://localhost:8080` (haproxy LB container, balances two nginx containers)
    - `http://localhost:9000/haproxystats` (view haproxy stats)
 
