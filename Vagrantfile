@@ -15,10 +15,12 @@ NUM_OF_NODES = 1
   ip = "192.168.11.#{i+10}"
 
   config.vm.define vm_name = name do |node| 
+    if i == 1
+      node.vm.network "forwarded_port", guest: 80, host: 8080
+      node.vm.network "forwarded_port", guest: 9000, host: 9000
+    end
     node.vm.network "private_network", ip: ip
     node.vm.hostname = name
-    node.vm.network "forwarded_port", guest: 80, host: 8080
-    node.vm.network "forwarded_port", guest: 9000, host: 9000
     end
   end
   config.vm.box = "ubuntu/trusty64"
