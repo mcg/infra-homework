@@ -5,10 +5,13 @@ This repo will build an example site that consists of one haproxy, with two ngin
 Getting Started
 ===============
 Have a Unix like system and the following prerequisites.
+
 - Ansible >= 1.9.1
 - Vagrant >= 1.7.4
 - Ports 8080 and 9000 available
 
+Bring up the environment
+------------------------
 1. `git clone https://github.com/mcg/infra-homework.git`
 2. `cd infra-homework`
 3. Edit the included weave_secret.txt file(or leave it as is for this example). This will be the key used to setup the Weave encrypted network.
